@@ -82,7 +82,7 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>-10</y>
+      <y>0</y>
       <width>661</width>
       <height>571</height>
      </rect>
@@ -104,7 +104,7 @@ Background-color: Beige;
     <widget class="QProgressBar" name="progressBar">
      <property name="geometry">
       <rect>
-       <x>150</x>
+       <x>140</x>
        <y>520</y>
        <width>341</width>
        <height>20</height>
@@ -460,9 +460,8 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;1. Select the frequency data value you would like to see as results. &lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;2. Select the stages of noun phrase structures you would like to see the results of.&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;3. Select the folder that contains the texts you would like to analyze.&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;4. Write the output file name for your results csv file. &lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;4. Write the output file name for your results csv file, and choose the folder for your file.&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;5. When you're ready, click on &amp;quot;Start the analysis&amp;quot; and wait for the results.&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;**The result csv file will be saved in the folder that you have selected.&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;** For detailed info on the noun phrase structures analyzed in this tool, click 'What is NPC'.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
@@ -500,9 +499,9 @@ p, li { white-space: pre-wrap; }
      <widget class="QTextEdit" name="textEdit">
       <property name="geometry">
        <rect>
-        <x>10</x>
+        <x>20</x>
         <y>10</y>
-        <width>511</width>
+        <width>391</width>
         <height>31</height>
        </rect>
       </property>
@@ -524,7 +523,7 @@ p, li { white-space: pre-wrap; }
      <widget class="QLabel" name="label">
       <property name="geometry">
        <rect>
-        <x>530</x>
+        <x>420</x>
         <y>20</y>
         <width>41</width>
         <height>16</height>
@@ -532,11 +531,24 @@ p, li { white-space: pre-wrap; }
       </property>
       <property name="font">
        <font>
-        <pointsize>15</pointsize>
+        <pointsize>16</pointsize>
        </font>
       </property>
       <property name="text">
        <string>.csv</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_4">
+      <property name="geometry">
+       <rect>
+        <x>460</x>
+        <y>10</y>
+        <width>113</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Find folder</string>
       </property>
      </widget>
     </widget>

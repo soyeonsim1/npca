@@ -119,7 +119,20 @@ class NPCInfoDialog(QDialog):
             "Stage 3: Relative clauses, noun modifiers, possessives, of-phrases, simple PPs\n"
             "Stage 4: Nonfinite relatives and more phrasal embedding\n"
             "Stage 5: Complement clauses and extensive phrasal embedding\n\n"
-            "Analyzing these structures can reveal patterns in syntactic development over time."
+            "Analyzing these structures can reveal patterns in syntactic development over time.\n\n\n"
+            
+            "Index manual\n"
+            "adj: Attribute adjective + Noun\n"
+            "rc: Noun + That relative clauses\n"
+            "nm: Noun + Noun\n"
+            "poss: Possessive noun + Noun\n"
+            "of: Noun + of phrase\n"
+            "prep: Noun + simple PP (other than of)\n"
+            "nonf: Noun + nonfinite relative clause\n"
+            "adj_nm: Adjective + Noun + Noun\n"
+            "comp: Noun + complement clause\n"
+            "ml: Noun + multiple PPs as postmodifiers\n\n"
+            "**For detailed information about the structures, please refer to Biber et al. (2011) and Sim (2024)."
         )
         layout.addWidget(self.text_edit)
 
@@ -139,6 +152,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):  # https://docs.python.org/3/tutor
         self.pushButton_2.clicked.connect(self.set_input_folder)
         self.pushButton.clicked.connect(self.run_process)
         self.pushButton_3.clicked.connect(self.show_npc_info)
+        self.pushButton_4.clicked.connect(self.set_output_folder)
         self.pushButton_3.setCursor(Qt.PointingHandCursor)
         self.pushButton_3.setStyleSheet("""
             QPushButton {
@@ -158,6 +172,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):  # https://docs.python.org/3/tutor
         self.folder_label.setAlignment(Qt.AlignTop)
         self.scrollArea.setWidget(self.folder_label)
         self.input_folder = ""
+        self.output_folder = ""
 
     def set_input_folder(self):
         # The folder selected will be opened
@@ -166,20 +181,67 @@ class MainWindow(QMainWindow, Ui_MainWindow):  # https://docs.python.org/3/tutor
             self.folder_label.setText(f"{selected_folder}")
             self.input_folder = selected_folder
 
+    def set_output_folder(self):
+        selected_folder = QFileDialog.getExistingDirectory(self, 'Select Output Folder')
+        if selected_folder:
+            self.output_folder = selected_folder
+
+    def get_all_columns(self):
+        return ['adj_raw', 'adj_normed', 'rc_raw', 'rc_normed', 'nm_raw', 'nm_normed', 'poss_raw', 'poss_normed',
+                'of_raw', 'of_normed', 'prep_raw', 'prep_normed', 'nonf_raw', 'nonf_normed', 'adj_nm_raw',
+                'adj_nm_normed', 'comp_raw', 'comp_normed', 'ml_raw', 'ml_normed']
+
     # Defining a function
     def run_process(self):
         if not self.input_folder:
             QMessageBox.warning(self, 'Warning', 'Please select a folder using "Find Folder" button.')
             return
+        if not self.output_folder:
+            QMessageBox.warning(self, 'Warning', 'Please select an output folder using "Find Folder" button.')
 
-        # The folder selected will be opened
-        selected_folder = QFileDialog.getExistingDirectory(self, 'pushButton')
-        # if selected_folder:
-        #     self.folder_label.setText(f"{selected_folder}")
+        selected_columns = []
+        all_columns = self.get_all_columns()
+        freq_raw = self.checkBox.isChecked()
+        freq_normed = self.checkBox_2.isChecked()
+
+        if self.checkBox_3.isChecked():
+            if freq_raw:
+                selected_columns.append('adj_raw')
+            if freq_normed:
+                selected_columns.append('adj_normed')
+        if self.checkBox_4.isChecked():  # Stage 3
+            stage3 = ['rc', 'nm', 'poss', 'of', 'prep']
+            for prefix in stage3:
+                if freq_raw:
+                    selected_columns.append(f'{prefix}_raw')
+                if freq_normed:
+                    selected_columns.append(f'{prefix}_normed')
+
+        if self.checkBox_5.isChecked():  # Stage 4
+            stage4 = ['nonf', 'adj_nm']
+            for prefix in stage4:
+                if freq_raw:
+                    selected_columns.append(f'{prefix}_raw')
+                if freq_normed:
+                    selected_columns.append(f'{prefix}_normed')
+
+        if self.checkBox_6.isChecked():  # Stage 5
+            stage5 = ['comp', 'ml']
+            for prefix in stage5:
+                if freq_raw:
+                    selected_columns.append(f'{prefix}_raw')
+                if freq_normed:
+                    selected_columns.append(f'{prefix}_normed')
+
+        selected_columns = sorted(set(selected_columns))
+        if not selected_columns:
+            QMessageBox.warning(self, 'Warning', 'Please select at least one checkbox before running the analysis.')
+            return
+
 
         # Get the csv file name from the testEdit widget
         output_file_name = self.textEdit.toPlainText()
-        output_file_path = os.path.join(selected_folder, f'{output_file_name}.csv')
+        output_file_path = os.path.join(self.output_folder, f'{output_file_name}.csv')
 
         self.pushButton.setText("Processing...")
         self.pushButton.setEnabled(False)
@@ -189,12 +251,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):  # https://docs.python.org/3/tutor
         try:
             print('Before opening the output file')
             with open(output_file_path, 'w+', encoding='utf-8') as out_file:
-                # Write the output file
-                out_file.write('file, Number of words, adj_raw, adj_normed, rc_raw, rc_normed, nm_raw, nm_normed, poss_raw, poss_normed, of_raw, of_normed, prep_raw, prep_normed, nonf_raw, nonf_normed, adj_nm_raw, adj_nm_normed, comp_raw, comp_normed, ml_raw, ml_normed\n')
+                header = ['file', 'Number of words'] + selected_columns
+                out_file.write(','.join(header) + '\n')
 
-                # TO READ IN THE TEXT OF EACH FILE
                 file_list = glob.glob(os.path.join(self.input_folder, '*'))
                 total_files = len(file_list)
+
 
                 for i, file_name in enumerate(file_list):
                     # Open each file here
@@ -204,29 +266,35 @@ class MainWindow(QMainWindow, Ui_MainWindow):  # https://docs.python.org/3/tutor
                         word_count = len(words)
                         doc = nlp(text)
 
-                        adj = count_adj(doc);
-                        rc = count_rc(doc);
-                        nm = count_nm(doc);
-                        poss = count_poss(doc);
-                        of = count_of(doc);
+                        adj = count_adj(doc)
+                        rc = count_rc(doc)
+                        nm = count_nm(doc)
+                        poss = count_poss(doc)
+                        of = count_of(doc)
                         prep = count_prep(doc)
-                        nonf = count_nonf(doc);
-                        adj_nm = count_adj_nm(doc);
-                        comp = count_comp(doc);
+                        nonf = count_nonf(doc)
+                        adj_nm = count_adj_nm(doc)
+                        comp = count_comp(doc)
                         ml = count_ml(doc)
 
                         # Compute counts and normed freqs
-                        out_file.write(f"{os.path.basename(file_name)},{word_count},"
-                                       f"{len(adj)},{normed(len(adj), word_count)},"
-                                       f"{len(rc)},{normed(len(rc), word_count)},"
-                                       f"{len(nm)},{normed(len(nm), word_count)},"
-                                       f"{len(poss)},{normed(len(poss), word_count)},"
-                                       f"{len(of)},{normed(len(of), word_count)},"
-                                       f"{len(prep)},{normed(len(prep), word_count)},"
-                                       f"{len(nonf)},{normed(len(nonf), word_count)},"
-                                       f"{len(adj_nm)},{normed(len(adj_nm), word_count)},"
-                                       f"{len(comp)},{normed(len(comp), word_count)},"
-                                       f"{len(ml)},{normed(len(ml), word_count)}\n")
+                        results = {
+                            'adj_raw': len(adj), 'adj_normed': normed(len(adj), word_count),
+                            'rc_raw': len(rc), 'rc_normed': normed(len(rc), word_count),
+                            'nm_raw': len(nm), 'nm_normed': normed(len(nm), word_count),
+                            'poss_raw': len(poss), 'poss_normed': normed(len(poss), word_count),
+                            'of_raw': len(of), 'of_normed': normed(len(of), word_count),
+                            'prep_raw': len(prep), 'prep_normed': normed(len(prep), word_count),
+                            'nonf_raw': len(nonf), 'nonf_normed': normed(len(nonf), word_count),
+                            'adj_nm_raw': len(adj_nm), 'adj_nm_normed': normed(len(adj_nm), word_count),
+                            'comp_raw': len(comp), 'comp_normed': normed(len(comp), word_count),
+                            'ml_raw': len(ml), 'ml_normed': normed(len(ml), word_count)
+                        }
+
+                        row = [os.path.basename(file_name), str(word_count)]
+                        for col in selected_columns:
+                            row.append(str(results.get(col, 0)))
+                        out_file.write(','.join(row) + '\n')
 
                     # Update progress bar
                     progress = int((i + 1) / total_files * 100)
@@ -247,6 +315,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):  # https://docs.python.org/3/tutor
     def show_npc_info(self):
         dialog = NPCInfoDialog(self)
         dialog.exec()
+
 
     pass
 
