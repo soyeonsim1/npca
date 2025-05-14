@@ -216,7 +216,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):  # https://docs.python.org/3/tutor
                         ml = count_ml(doc)
 
                         # Compute counts and normed freqs
-                        out_file.write(f"{file_name},{word_count},"
+                        out_file.write(f"{os.path.basename(file_name)},{word_count},"
                                        f"{len(adj)},{normed(len(adj), word_count)},"
                                        f"{len(rc)},{normed(len(rc), word_count)},"
                                        f"{len(nm)},{normed(len(nm), word_count)},"
