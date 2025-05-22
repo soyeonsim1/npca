@@ -13,7 +13,7 @@
 
 
 # After converting the .ui to .py, use an import statement to import the gui into this script
-from NPCA_gui import *
+from NPCA_gui_updated import *
 from PySide6.QtWidgets import QFileDialog, QVBoxLayout, QMessageBox, QMainWindow, QLabel, QApplication, QDialog, QPushButton
 from PySide6.QtCore import Qt
 import glob
@@ -22,6 +22,9 @@ import re
 import statistics
 import sys
 import spacy
+import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as np
 
 nlp = spacy.load('en_core_web_sm')
 
@@ -304,6 +307,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):  # https://docs.python.org/3/tutor
             self.progressBar.setValue(100)
             QMessageBox.information(self, 'Success', f'CSV file "{output_file_path}" generated successfully.')
 
+            if self.checkBox_7.isChecked():
+                self.plot_bar_graph()
+
         except Exception as e:
             print(f'Error: {e}')
             # Inform user about the error
@@ -316,6 +322,46 @@ class MainWindow(QMainWindow, Ui_MainWindow):  # https://docs.python.org/3/tutor
         dialog = NPCInfoDialog(self)
         dialog.exec()
 
+    def plot_bar_graph(self):
+        try:
+            # Only run if checkbox is checked
+            if not self.checkBox_7.isChecked():
+                return
+
+            # Ensure output file exists
+            output_file_name = self.textEdit.toPlainText()
+            output_file_path = os.path.join(self.output_folder, f'{output_file_name}.csv')
+
+            if not os.path.exists(output_file_path):
+                QMessageBox.warning(self, 'Warning', 'Output CSV file not found. Please run the analysis first.')
+                return
+
+            # Load the data
+            df = pd.read_csv(output_file_path)
+
+            # Get selected normed columns only
+            normed_cols = [col for col in self.get_all_columns() if col.endswith('_normed') and col in df.columns]
+
+            if not normed_cols:
+                QMessageBox.information(self, 'Info', 'No normalized frequency variables selected for plotting.')
+                return
+
+            # Calculate means
+            mean_values = df[normed_cols].mean().sort_values(ascending=False)
+
+            # Plot
+            plt.figure(figsize=(10, 6))
+            mean_values.plot(kind='bar')
+            plt.ylabel('Mean Normalized Frequency per 1,000 words')
+            plt.xlabel('Noun Phrase Feature')
+            plt.title('Mean Normalized Frequencies of Selected NP Structures')
+            plt.xticks(rotation=45, ha='right')
+            plt.tight_layout()
+            plt.grid(axis='y', linestyle='--', linewidth=0.5)
+            plt.show()
+
+        except Exception as e:
+            QMessageBox.critical(self, 'Error', f"Error while plotting: {e}")
 
     pass
 
