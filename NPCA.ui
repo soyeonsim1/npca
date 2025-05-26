@@ -366,9 +366,9 @@ QPushButton:pressed {
     <widget class="QTextBrowser" name="textBrowser_2">
      <property name="geometry">
       <rect>
-       <x>40</x>
+       <x>20</x>
        <y>50</y>
-       <width>581</width>
+       <width>611</width>
        <height>121</height>
       </rect>
      </property>
@@ -385,12 +385,12 @@ Background-color: white;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.AppleSystemUIFont'; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Instructions&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;1. Select the frequency data value you would like to see as results. &lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;2. Select the stages of noun phrase structures you would like to see the results of.&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;3. Select the folder that contains the texts you would like to analyze.&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;4. Write the output file name for your results csv file, and choose the folder for your file.&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;5. When you're ready, click on &amp;quot;Start the analysis&amp;quot; and wait for the results.&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;** For detailed info on the noun phrase structures analyzed in this tool, click 'What is NPC'.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;1. Select the type of frequency data and the noun phrase structure stages you wish to analyze.&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;2. Choose the folder that contains the text files for analysis.&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;3. To visualize the results, check the box to generate a bar graph. The image file &amp;quot;npc_plot.png&amp;quot; will be saved in your output folder.&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;4. Enter a name for your output CSV file, and select the folder where it should be saved.&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;5. Click &amp;quot;Start the analysis&amp;quot; to begin processing. Please wait while the results are generated.&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;** For detailed info on the noun phrase structures analyzed by this tool, click 'What is NPC'.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
     <widget class="QPushButton" name="pushButton_3">

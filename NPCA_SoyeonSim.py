@@ -116,7 +116,7 @@ class NPCInfoDialog(QDialog):
         self.text_edit = QTextEdit()
         self.text_edit.setReadOnly(True)
         self.text_edit.setPlainText(
-            "Noun Phrase Complexity (NPC) refers to the elaboration of noun phrases in written language.\n\n"
+            "Noun Phrase Complexity (NPC) refers to the elaboration of noun phrases in language.\n\n"
             "This tool follows the developmental stages proposed by Biber et al. (2011):\n\n"
             "Stage 2: Attribute adjectives as premodifiers (e.g., a nice flavor)\n"
             "Stage 3: Relative clauses, noun modifiers, possessives, of-phrases, simple PPs\n"
@@ -135,7 +135,8 @@ class NPCInfoDialog(QDialog):
             "adj_nm: Adjective + Noun + Noun\n"
             "comp: Noun + complement clause\n"
             "ml: Noun + multiple PPs as postmodifiers\n\n"
-            "**For detailed information about the structures, please refer to Biber et al. (2011) and Sim (2024)."
+            "**For detailed information about the structures, please refer to the following source.\n"
+            "Biber, D., Gray, B., & Poonpon, K. (2011). Should We Use Characteristics of Conversation to Measure Grammatical Complexity in L2 Writing Development? TESOL Quarterly, 45(1), 5–35."
         )
         layout.addWidget(self.text_edit)
 
@@ -359,6 +360,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):  # https://docs.python.org/3/tutor
             plt.tight_layout()
             plt.grid(axis='y', linestyle='--', linewidth=0.5)
             plt.show()
+            plt.savefig(os.path.join(self.output_folder, 'NPC_plot.png'))
 
         except Exception as e:
             QMessageBox.critical(self, 'Error', f"Error while plotting: {e}")
