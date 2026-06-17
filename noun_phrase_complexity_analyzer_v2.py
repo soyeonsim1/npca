@@ -1,6 +1,6 @@
 
 ############# NPC Analyzer ##############
-# Developed by Soyeon Sim
+# Developed by Soyeon Sim & Dr. Daniel H. Dixon
 # Description: The NPC (noun phrase complexity) analyzer identifies and counts the 10 noun phrase structures across the hypothesized stages proposed by Biber et al. (2011)
 # NPC variables:
     # Stage 2: Attribute adjectives as premodifiers (e.g. It has a nice flavor.)
@@ -597,6 +597,26 @@ class MainWindow(QMainWindow, Ui_MainWindow):  # https://docs.python.org/3/tutor
             plt.xticks(rotation=45, ha='right')
             plt.tight_layout()
             plt.grid(axis='y', linestyle='--', linewidth=0.5)
+
+            # Save image
+            plot_path = os.path.join(
+                self.output_folder,
+                f"{output_file_name}_NPC_plot.png"
+            )
+
+            # Save the plot
+            plt.savefig(plot_path, dpi=300, bbox_inches='tight')
+            plt.close()
+
+            if sys.platform == "darwin":
+                os.system(f'open "{plot_path}"')
+
+            QMessageBox.information(
+                self,
+                'Success',
+                f'Bar graph saved as:\n{plot_path}'
+            )
+
             plt.show()
             plt.savefig(os.path.join(self.output_folder, 'NPC_plot.png'))
 
